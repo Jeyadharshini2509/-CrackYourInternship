@@ -1,0 +1,39 @@
+class Solution {
+    
+    public int strStr(String haystack, String needle) {
+        int[] next = buildNext(needle);
+        int i = 0; 
+        int j = 0;
+        while  (i < haystack.length() && j < needle.length()) {
+            if (j == -1 || haystack.charAt(i) == needle.charAt(j)) {
+                i++;
+                j++;
+            } else { 
+                j = next[j];
+            }
+        }
+
+        if (j == needle.length()) { 
+            return i - j;
+        } else {
+            return -1;
+        }
+       
+    }
+    public int[] buildNext(String s) { 
+        int[] next = new int[s.length()+1];
+        int j = -1;
+        int i = 0;
+        next[0] = -1;
+        while (i < s.length()) {
+            if (j == -1 || s.charAt(i) == s.charAt(j)) {
+                j++;
+                i++;
+                next[i] = j;
+            } else { 
+                j = next[j];
+            }
+        }
+        return next;
+    }
+}
