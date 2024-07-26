@@ -1,0 +1,41 @@
+
+class Solution {
+    // Function to find minimum number of pages.
+    public static long findPages(int n, int[] arr, int m) {
+        // Your code here
+        if(m>n)return-1;
+        
+        int lo=0;
+        int hi=Arrays.stream(arr).sum();
+        int ans=-1;
+        int mid = 0;
+        while(lo<=hi){
+            mid = (lo + hi)>>1;
+            if(isPossibleSolution(arr,n,m,mid)){
+                ans=mid;
+                hi = mid-1;
+            }
+            else {
+                lo = mid+1;
+            }
+        }
+        return ans;
+        
+    }
+    private static boolean isPossibleSolution(int a[] , int n , int m , int  sol){
+        int pageSum=0;
+        int c=1;
+        for(int i=0;i<n;i++){
+            if(a[i] > sol)return false;
+            if(pageSum +a[i] > sol){
+                c++;
+                pageSum = a[i];
+                if(c > m){
+                    return false;
+                }
+            }
+            else pageSum += a[i];
+        }
+        return true;
+    }
+};
