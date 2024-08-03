@@ -1,0 +1,21 @@
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> nge=new Stack<>();
+        int n=temperatures.length;
+        int[] result=new int[n];
+        for(int i=n-1;i>=0;i--){
+        while(!nge.isEmpty()&& temperatures[i]>=temperatures[nge.peek()]){
+            nge.pop();
+            
+        }
+        if(!nge.isEmpty()){
+            result[i]=nge.peek()-i;
+            
+        }
+            nge.push(i);
+            
+        }
+        return result;
+        
+    }
+}
