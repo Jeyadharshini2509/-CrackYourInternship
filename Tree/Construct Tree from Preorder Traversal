@@ -1,0 +1,37 @@
+class Solution
+{
+   
+    public static int ind;
+    Solution(){ind=0;}
+
+   
+    Node make(int pre[], char preLN[], int n){
+      
+        if (ind == n)return null;
+        
+        
+        Node temp = new Node(pre[ind]);
+        
+       
+        ind++;
+        
+      
+        if(ind>=n)
+        return temp;
+        
+     
+        if (preLN[ind-1] == 'N')
+        {
+            temp.left = make(pre, preLN, n);
+            temp.right =make(pre, preLN, n);
+        }
+        
+       
+        return temp;
+    }
+
+   
+    Node constructTree(int n, int pre[], char preLN[]){
+        return make(pre, preLN, n);
+    }
+}
