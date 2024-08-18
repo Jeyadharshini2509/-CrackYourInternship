@@ -1,0 +1,69 @@
+class Solution {
+    class Node {
+		int square;
+		int moves;
+
+		Node(int square, int moves) {
+			this.square = square;
+			this.moves = moves;
+		}
+	}
+
+	class Position {
+		int row;
+		int col;
+
+		Position(int row, int col) {
+			this.row = row;
+			this.col = col;
+		}
+	}
+
+	public Position intToPosition(int square, int length) {
+		int r = (square - 1) / length;
+		int c = (square - 1) % length;
+		if (r % 2 == 1)
+			c = length - 1 - c;
+		return new Position(r, c);
+	}
+
+	public int[][] reverse(int[][] board) {
+		int ROWS = board.length;
+		int COLS = board[0].length;
+		int[][] array = new int[ROWS][COLS];
+		for (int i = 0; i < ROWS; i++) {
+			array[i] = board[ROWS - i - 1];
+		}
+		return array;
+	}
+
+	public int bfs(int[][] board) {
+		board = reverse(board);
+		Queue<Node> deque = new LinkedList<Node>();
+		boolean[] visist = new boolean[board.length * board.length];
+		deque.offer(new Node(1, 0));
+		while (!deque.isEmpty()) {
+			Node node = deque.poll();
+			for (int i = 1; i < 7; i++) {
+				int nextSquare = node.square + i;
+				int nextMoves = node.moves + 1;
+				Position position = intToPosition(nextSquare, board.length);
+				if (board[position.row][position.col] != -1) {
+					nextSquare = board[position.row][position.col];
+				}
+				if (nextSquare == board.length * board.length) {
+					return nextMoves;
+				}
+				if (!visist[nextSquare]) {
+					visist[nextSquare] = true;
+					deque.offer(new Node(nextSquare, nextMoves));
+				}
+			}
+		}
+		return -1;
+	}
+
+	public int snakesAndLadders(int[][] board) {
+		return bfs(board);
+	}
+}
